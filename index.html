@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Headphones Collection</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f7;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            color: #1d1d1f;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 3em;
+            font-weight: 600;
+            letter-spacing: -0.03em;
+        }
+
+        .subtitle {
+            color: #6e6e73;
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 1.3em;
+            font-weight: 400;
+        }
+
+        .wrapper {
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .card {
+            width: 360px;
+            height: 550px;
+            perspective: 1500px;
+        }
+
+        .card .content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .more {
+            display: none;
+            opacity: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .more:checked ~ .content {
+            transform: rotateY(180deg);
+        }
+
+        .front,
+        .back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            transform-style: preserve-3d;
+            border-radius: 18px;
+            overflow: hidden;
+        }
+
+        .front .inner,
+        .back .inner {
+            height: 100%;
+            display: grid;
+            padding: 0;
+            transform: translateZ(60px) scale(0.95);
+        }
+
+        .front {
+            background: white;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .front .inner {
+            grid-template-rows: 2fr auto auto auto 1fr;
+            justify-items: center;
+            padding: 40px 30px;
+        }
+
+        .front h2 {
+            grid-row: 2;
+            margin: 0 0 8px 0;
+            font-weight: 600;
+            font-size: 1.75em;
+            letter-spacing: -0.02em;
+            color: #1d1d1f;
+            text-align: center;
+        }
+
+        .product-image {
+            grid-row: 1;
+            width: 100%;
+            height: 240px;
+            object-fit: contain;
+            margin-bottom: 20px;
+        }
+
+        .model-name {
+            grid-row: 3;
+            font-size: 1.1em;
+            color: #6e6e73;
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+
+        .color-options {
+            grid-row: 4;
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .color-dot {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .color-dot:hover {
+            transform: scale(1.1);
+            border-color: #1d1d1f;
+        }
+
+        .color-dot.color-space-gray {
+            background: #535355;
+        }
+
+        .color-dot.color-silver {
+            background: #e3e4e5;
+        }
+
+        .color-dot.color-white {
+            background: #f9f9f9;
+            border: 2px solid #d2d2d7;
+        }
+
+        .color-dot.color-blue {
+            background: #394f6b;
+        }
+
+        .new-badge {
+            display: inline-block;
+            background: #ff3b30;
+            color: white;
+            font-size: 0.65em;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        .back {
+            transform: rotateY(180deg);
+            background: white;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .back .inner {
+            grid-template-rows: auto auto auto auto;
+            padding: 30px 30px 30px 30px;
+            gap: 12px;
+        }
+
+        .tech-specs {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            padding: 18px 0;
+            border-top: 1px solid #d2d2d7;
+            border-bottom: 1px solid #d2d2d7;
+        }
+
+        .spec-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95em;
+        }
+
+        .spec-label {
+            color: #6e6e73;
+            font-weight: 400;
+        }
+
+        .spec-value {
+            color: #1d1d1f;
+            font-weight: 500;
+        }
+
+        .features {
+            font-size: 0.85em;
+            line-height: 1.6;
+            color: #6e6e73;
+        }
+
+        .features ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .features li {
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #0071e3;
+            font-weight: 600;
+        }
+
+        .price-section {
+            text-align: center;
+            padding: 8px 0;
+        }
+
+        .price-tag {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #1d1d1f;
+            letter-spacing: -0.02em;
+        }
+
+        .price-description {
+            font-size: 0.8em;
+            color: #6e6e73;
+            margin-top: 4px;
+        }
+
+        .button {
+            grid-row: -1;
+            text-transform: capitalize;
+            letter-spacing: -0.01em;
+            font-weight: 400;
+            cursor: pointer;
+            display: block;
+            padding: 0 2em;
+            height: 2.8em;
+            line-height: 2.8em;
+            background: #0071e3;
+            color: white;
+            border-radius: 980px;
+            text-align: center;
+            transition: all 0.2s ease;
+            border: none;
+            font-size: 1em;
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        .button:hover {
+            background: #0077ed;
+        }
+
+        .button:active {
+            transform: scale(0.98);
+        }
+
+        .button.return {
+            background: transparent;
+            color: #0071e3;
+            border: 1px solid #0071e3;
+        }
+
+        .button.return:hover {
+            background: #0071e3;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Studio Quality.</h1>
+    <div class="subtitle">Hear the difference.</div>
+    
+    <div class="wrapper">
+        <!-- Card 1 -->
+        <div class="card">
+            <input type="checkbox" id="card1" class="more" aria-hidden="true">
+            <div class="content">
+                <div class="front">
+                    <div class="inner">
+                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500" alt="Headphones" class="product-image">
+                        <h2>AirPods Max <span class="new-badge">NEW</span></h2>
+                        <div class="model-name">Over-ear headphones</div>
+                        <div class="color-options">
+                            <div class="color-dot color-space-gray"></div>
+                            <div class="color-dot color-silver"></div>
+                            <div class="color-dot color-white"></div>
+                            <div class="color-dot color-blue"></div>
+                        </div>
+                        <label for="card1" class="button" aria-hidden="true">
+                            Learn more
+                        </label>
+                    </div>
+                </div>
+                <div class="back">
+                    <div class="inner">
+                        <div class="tech-specs">
+                            <div class="spec-row">
+                                <span class="spec-label">Battery Life</span>
+                                <span class="spec-value">Up to 20 hours</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">Audio Technology</span>
+                                <span class="spec-value">Active Noise Cancellation</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">Chip</span>
+                                <span class="spec-value">Apple H1</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">Connectivity</span>
+                                <span class="spec-value">Bluetooth 5.0</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">Weight</span>
+                                <span class="spec-value">384.8 g</span>
+                            </div>
+                        </div>
+                        <div class="features">
+                            <ul>
+                                <li>Computational audio for breakthrough listening</li>
+                                <li>Spatial audio with dynamic head tracking</li>
+                                <li>Seamless switching between devices</li>
+                                <li>Audio sharing with another set of AirPods</li>
+                            </ul>
+                        </div>
+                        <div class="price-section">
+                            <div class="price-tag">$549</div>
+                            <div class="price-description">or $45.75/mo. for 12 months</div>
+                        </div>
+                        <label for="card1" class="button return" aria-hidden="true">
+                            Back
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card">
+            <input type="checkbox" id="card2" class="more" aria-hidden="true">
+            <div class="content">
+                <div class="front">
+                    <div class="inner">
+                        <img src="https://images.unsplash.com/photo-1545127398-14699f92334b?w=500" alt="Headphones" class="product-image">
+                        <h2>Beats Studio Pro</h2>
+                        <div class="model-name">Wireless headphones</div>
+                        <div class="color-options">
+                            <div class="color-dot" style="background: #1d1d1f;"></div>
+                            <div class="color-dot" style="background: #e5c3a6;"></div>
+                            <div class="color-dot" style="background: #9b3b3a;"></div>
+                            <div class="color-dot" style="background: #2c4761;"></div>
+                        </div>
+                        <label for="card2" class="button" aria-hidden="true">
+                            Learn more
+                        </label>
+                    </div>
+                </div>
+                <div class="back">
+                    <div class="inner">
+                        <div class="tech-specs">
+                            <div class="spec-row">
+                                <span class="spec-label">Battery Life</span>
+                                <span class="spec-value">Up to 40 hours</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">Audio Technology</span>
+                                <span class="spec-value">Active Noise Cancelling</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">Connectivity</span>
+                                <span class="spec-value">Bluetooth & USB-C</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">Spatial Audio</span>
+                                <span class="spec-value">Personalized</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">Weight</span>
+                                <span class="spec-value">260 g</span>
+                            </div>
+                        </div>
+                        <div class="features">
+                            <ul>
+                                <li>Lossless audio via USB-C</li>
+                                <li>Enhanced compatibility with Apple and Android</li>
+                                <li>Personalized spatial audio with head tracking</li>
+                                <li>Transparency mode to hear surroundings</li>
+                            </ul>
+                        </div>
+                        <div class="price-section">
+                            <div class="price-tag">$349</div>
+                            <div class="price-description">or $29.08/mo. for 12 months</div>
+                        </div>
+                        <label for="card2" class="button return" aria-hidden="true">
+                            Back
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card">
+            <input type="checkbox" id="card3" class="more" aria-hidden="true">
+            <div class="content">
+                <div class="front">
+                    <div class="inner">
+                        <img src="https://images.unsplash.com/photo-1484704849700-f032a568e944?w=500" alt="Headphones" class="product-image">
+                        <h2>AirPods Pro</h2>
+                        <div class="model-name">2nd generation</div>
+                        <div class="color-options">
+                            <div class="color-dot color-white"></div>
+                        </div>
+                        <label for="card3" class="button" aria-hidden="true">
+                            Learn more
+                        </label>
+                    </div>
+                </div>
+                <div class="back">
+                    <div class="inner">
+                        <div class="tech-specs">
+                            <div class="spec-row">
+                                <span class="spec-label">Battery Life</span>
+                                <span class="spec-value">Up to 6 hours</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">Audio Technology</span>
+                                <span class="spec-value">Adaptive Audio</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">Chip</span>
+                                <span class="spec-value">Apple H2</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">Dust Resistance</span>
+                                <span class="spec-value">IP54 rated</span>
+                            </div>
+                            <div class="spec-row">
+                                <span class="spec-label">Weight</span>
+                                <span class="spec-value">5.3 g each</span>
+                            </div>
+                        </div>
+                        <div class="features">
+                            <ul>
+                                <li>Up to 2x more Active Noise Cancellation</li>
+                                <li>Adaptive Transparency lets you hear the world</li>
+                                <li>Personalized spatial audio with head tracking</li>
+                                <li>MagSafe charging case with precision finding</li>
+                            </ul>
+                        </div>
+                        <div class="price-section">
+                            <div class="price-tag">$249</div>
+                            <div class="price-description">Free engraving</div>
+                        </div>
+                        <label for="card3" class="button return" aria-hidden="true">
+                            Back
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
